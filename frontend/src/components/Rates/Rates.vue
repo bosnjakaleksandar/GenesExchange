@@ -149,6 +149,9 @@ function renderChart() {
                 </td>
                 <td class="i-16-400">{{ rate.buyRate.toFixed(2) }}</td>
                 <td class="i-16-400">{{ rate.sellRate.toFixed(2) }}</td>
+                <td class="rates__table-more">
+                  <span>⋮</span>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -177,10 +180,16 @@ function renderChart() {
             </h2>
           </div>
           <div class="rates__interval-buttons">
-            <button :class="{ 'rates__interval-button--active': selectedType === 'buy' }" @click="handleTypeChange('buy')">
+            <button
+              :class="{ 'rates__interval-button--active': selectedType === 'buy' }"
+              @click="handleTypeChange('buy')"
+            >
               BUY
             </button>
-            <button :class="{ 'rates__interval-button--active': selectedType === 'sell' }" @click="handleTypeChange('sell')">
+            <button
+              :class="{ 'rates__interval-button--active': selectedType === 'sell' }"
+              @click="handleTypeChange('sell')"
+            >
               SELL
             </button>
           </div>
