@@ -89,7 +89,7 @@
                     cursor: pointer;
                     transition: background 0.3s;
 
-                    &.active {
+                    &.rates__interval-button--active {
                         background: $gold-2;
                         color: white;
                     }
@@ -138,26 +138,60 @@
             height: 30px;
         }
     }
-}
 
-.back-btn {
-    background: none;
-    border: none;
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    color: $gold-2;
-    z-index: 10;
+    &--details-open {
+        .rates__columns-left {
+            display: none;
+        }
 
-    svg {
-        width: 40px;
-        height: 30px;
+        .rates__columns-right {
+            display: block;
+            width: 100%;
+        }
     }
-}
 
-.selected-row {
-    background-color: #2b2b2b;
-    border-left: 4px solid $gold-2;
+    &__back-btn {
+        background: none;
+        border: none;
+        position: absolute;
+        top: 40px;
+        left: 40px;
+        color: $gold-2;
+        z-index: 10;
+
+        svg {
+            width: 40px;
+            height: 30px;
+        }
+    }
+
+    &__table-row--selected {
+        background-color: #2b2b2b;
+        border-left: 4px solid $gold-2;
+    }
+
+    &__interval-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 16px;
+
+        button {
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: $dark-gray;
+            color: #ccc;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+
+            &.rates__interval-button--active {
+                background: $gold-2;
+                color: white;
+            }
+        }
+    }
 }
 
 @media (max-width: 1024px) {
@@ -175,7 +209,7 @@
         }
     }
 
-    .details-open {
+    .rates--details-open {
         .rates__columns-left {
             display: none;
         }

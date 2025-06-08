@@ -10,14 +10,11 @@ const selectedCurrency = ref<string>('')
 const selectedType = ref<'buy' | 'sell'>('buy')
 const selectedInterval = ref<'day' | 'week' | 'month' | 'year'>('day')
 
-// Dodaj za mobilni detaljan prikaz
 const detailsOpen = ref(false)
 
-// Dodaj refs za chart
 const chartCanvas = ref<HTMLCanvasElement | null>(null)
 let chartInstance: Chart | null = null
 
-// Reaktivno čuvaj širinu ekrana
 const isMobile = ref(false)
 const updateIsMobile = () => {
   isMobile.value = window.innerWidth <= 1024
@@ -28,7 +25,7 @@ onMounted(() => {
   fetchRates()
   setInterval(fetchRates, 30 * 60 * 1000)
 })
-// Očisti event listener kad se komponenta uništi
+
 onUnmounted(() => {
   window.removeEventListener('resize', updateIsMobile)
   if (chartInstance) {
@@ -53,7 +50,6 @@ watch([selectedCurrency, selectedType, selectedInterval], () => {
 
 const handleRowClick = (currency: string) => {
   selectedCurrency.value = currency
-  // Ako je mobilni ekran, otvori detalje
   if (isMobile.value) {
     detailsOpen.value = true
   }
@@ -114,11 +110,11 @@ function renderChart() {
 </script>
 
 <template>
-  <section class="rates" :class="{ 'details-open': detailsOpen }">
+  <section class="rates" :class="{ 'rates--details-open': detailsOpen }">
     <div class="rates__container">
       <div class="rates__top">
         <h1 class="rates__title i-48-700"><span>GENES</span>EXCHANGE</h1>
-        <p class="rates_time i-16-400">
+        <p class="rates__time i-16-400">
           Last update: {{ lastUpdate || 'Error' }}<span v-if="loading"> (Updating...)</span>
         </p>
       </div>
@@ -137,7 +133,7 @@ function renderChart() {
               <tr
                 v-for="rate in rates"
                 :key="rate.currency"
-                :class="{ 'selected-row': rate.currency === selectedCurrency }"
+                :class="{ 'rates__table-row--selected': rate.currency === selectedCurrency }"
                 @click="handleRowClick(rate.currency)"
                 style="cursor: pointer"
               >
@@ -159,11 +155,10 @@ function renderChart() {
         </div>
 
         <div class="rates__columns-right">
-          <!-- Back strelica za mobilni detaljan prikaz -->
           <button
             v-if="detailsOpen && isMobile"
             @click="handleBack"
-            class="back-btn"
+            class="rates__back-btn"
             aria-label="Back"
           >
             <ArrowSvg />
@@ -181,20 +176,20 @@ function renderChart() {
               {{ selectedCurrency }} - {{ selectedType === 'buy' ? 'Kupovni' : 'Prodajni' }}
             </h2>
           </div>
-          <div class="interval-buttons">
-            <button :class="{ active: selectedType === 'buy' }" @click="handleTypeChange('buy')">
+          <div class="rates__interval-buttons">
+            <button :class="{ 'rates__interval-button--active': selectedType === 'buy' }" @click="handleTypeChange('buy')">
               BUY
             </button>
-            <button :class="{ active: selectedType === 'sell' }" @click="handleTypeChange('sell')">
+            <button :class="{ 'rates__interval-button--active': selectedType === 'sell' }" @click="handleTypeChange('sell')">
               SELL
             </button>
           </div>
           <canvas ref="chartCanvas" class="rates__chart"></canvas>
-          <div class="interval-buttons">
+          <div class="rates__interval-buttons">
             <button
               v-for="interval in ['day', 'week', 'month', 'year']"
               :key="interval"
-              :class="{ active: selectedInterval === interval }"
+              :class="{ 'rates__interval-button--active': selectedInterval === interval }"
               @click="handleIntervalChange(interval as 'day' | 'week' | 'month' | 'year')"
             >
               {{ interval.charAt(0).toUpperCase() + interval.slice(1) }}
