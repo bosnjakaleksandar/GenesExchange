@@ -1,0 +1,95 @@
+@use "sass:map";
+@use "sass:list";
+
+// --------------------------------------------
+// FONT FACE
+// --------------------------------------------
+
+@font-face {
+    font-family: 'Inter';
+    src: url('../../public/fonts/Inter-Regular.woff') format('woff'),
+        url('../../public/fonts/Inter-Regular.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+// --------------------------------------------
+// MIXIN
+// --------------------------------------------
+
+@mixin font-style($family, $size, $weight, $line-height, $letter-spacing: null) {
+    $font-families: (
+        "i": "Inter"
+    );
+
+$font-family: map.get($font-families, $family);
+
+font-family: $font-family;
+font-size: #{$size}px;
+font-weight: $weight;
+line-height: calc(#{$line-height} / #{$size});
+
+@if $letter-spacing !=null {
+    letter-spacing: $letter-spacing;
+}
+
+@include mq(1921, min) {
+    font-size: calc(#{$size} * 100 / 1920 * 1vw);
+}
+}
+
+// --------------------------------------------
+// FONT STYLES MAP
+// --------------------------------------------
+
+$font-variants: (
+    // Naslovi
+    "i-64-800": ("i", 64, 800, 72, -0.02em, ($lap-small: 48, $tablet: 40, $phone: 32)),
+    "i-48-700": ("i", 48, 700, 56, -0.02em, ($lap-small: 40, $tablet: 32, $phone: 28)),
+    "i-36-700": ("i", 36, 700, 42, -0.01em, ($lap-small: 30, $tablet: 26, $phone: 22)),
+
+    // Podnaslovi / lead tekst
+    "i-24-600": ("i", 24, 600, 32, null, ($tablet: 20, $phone: 18)),
+    "i-20-500": ("i", 20, 500, 28, null, ($tablet: 18, $phone: 16)),
+
+    // Paragrafi
+    "i-16-700": ("i", 16, 700, 24, null, ($tablet: 14, $phone: 13)),
+    "i-18-400": ("i", 18, 400, 26, null, ($tablet: 16, $phone: 14)),
+    "i-16-400": ("i", 16, 400, 24, null, ($tablet: 14, $phone: 13)),
+
+    // Sekundarni tekst
+    "i-14-400": ("i", 14, 400, 20, 0.01em, ($tablet: 13, $phone: 12)),
+    "i-12-400": ("i", 12, 400, 16, 0.01em, ($tablet: 11, $phone: 10)),
+
+    // CTA dugmad i akcije
+    "i-16-600": ("i", 16, 600, 24, 0.02em, ($tablet: 15, $phone: 14)),
+    "i-14-600": ("i", 14, 600, 20, 0.02em, ($tablet: 13, $phone: 12))
+);
+
+// --------------------------------------------
+// CLASS GENERATOR
+// --------------------------------------------
+
+@each $class, $vals in $font-variants {
+    $family: list.nth($vals, 1);
+    $size: list.nth($vals, 2);
+    $weight: list.nth($vals, 3);
+    $line-height: list.nth($vals, 4);
+    $letter-spacing: if(list.length($vals) >=5 and list.nth($vals, 5) !=null, list.nth($vals, 5), null);
+    $responsive-map: if(list.length($vals) >=6, list.nth($vals, 6), null);
+
+    .#{$class} {
+        @include font-style($family, $size, $weight, $line-height, $letter-spacing);
+
+        @if $responsive-map !=null and type-of($responsive-map)=="map" {
+            @each $breakpoint-var, $responsive-font-size in $responsive-map {
+
+                @include mq($breakpoint-var) {
+                    font-size: #{$responsive-font-size}px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,240 @@
+.auth {
+    height: 100vh;
+    color: $white;
+
+    &__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        height: 100%;
+
+        @include mq (768) {
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+    }
+
+    &__image {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            max-height: 550px;
+        }
+
+        @include mq (768) {
+            width: 100%;
+            height: 30vh;
+
+            img {
+                height: 100%;
+            }
+        }
+
+        @include mq (380) {
+            min-height: 200px;
+        }
+    }
+
+    &__card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: $black;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        padding: 0 10%;
+        width: 50%;
+        height: 100%;
+        transition: height 0.3s ease;
+
+        &-title {
+            margin-bottom: 5%;
+
+            span {
+                color: $gold-2;
+            }
+        }
+
+        &-subtitle {
+            margin-bottom: 2%;
+        }
+
+        &-body {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        @include mq (768) {
+            border-radius: 0;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            width: 100%;
+            height: 70vh;
+            min-height: auto;
+        }
+
+        @include mq (380) {
+            padding: 0 5%;
+            min-height: 500px;
+            overflow-y: auto;
+
+            &-title {
+                margin-bottom: 3%;
+            }
+
+            &-subtitle {
+                margin-bottom: 1.5%;
+            }
+
+            &-body {
+                gap: 8px;
+            }
+        }
+    }
+
+    &__button {
+        background-color: $gold-2;
+        color: $black;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: $gold;
+        }
+    }
+
+    &__input {
+        background-color: transparent;
+        border: none;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        border: 1px solid transparent;
+        padding-left: 35px;
+
+        &:focus {
+            outline: none;
+            border: 1px solid $gold;
+
+            &::placeholder {
+                opacity: 0;
+            }
+        }
+
+        &::placeholder {
+            transition: opacity 0.3s ease;
+        }
+    }
+
+    &__input-wrapper {
+        position: relative;
+        background-color: $dark-gray;
+        border: none;
+        border: 1px solid transparent;
+    }
+
+    &__input-icon {
+        position: absolute;
+        color: #aaa;
+        pointer-events: none;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        &--right {
+            left: auto;
+            right: 10px;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+    }
+
+    &__link {
+        color: $gold-2;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+            color: $gold;
+        }
+    }
+
+    &__card-social-header {
+        margin-top: 10%;
+        margin-bottom: 5%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        span {
+            background-color: $gold;
+            height: 3px;
+            width: 40px;
+        }
+    }
+
+    &__card-social-icons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+
+        svg {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: $gold-2;
+            padding: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $gold;
+                transform: scale(1.1) translateY(-5px);
+            }
+        }
+    }
+}
+
+// Transition animations
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    transform: translateY(-10px);
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+}
+
+.slide-fade-enter-to,
+.slide-fade-leave-from {
+    transform: translateY(0);
+    opacity: 1;
+    max-height: 100px;
+
+    @include mq (768) {
+        max-height: 120px;
+    }
+}

@@ -1,0 +1,188 @@
+.rates {
+    color: $white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include mq (1024) {
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    &__container {
+        margin: 0 auto;
+        width: 80%;
+
+        @include mq (1024) {
+            margin-top: 40px;
+            width: 90%;
+        }
+    }
+
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        @include mq (1024) {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    &__title {
+        span {
+            color: $gold-2;
+        }
+    }
+
+    &__columns {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        &-left {
+            background-color: $black;
+            border-radius: 13px;
+            overflow: hidden;
+            width: 60%;
+
+            @include mq (1024) {
+                width: 100%;
+            }
+        }
+
+        &-right {
+            background: $black;
+            padding: 16px;
+            border-radius: 16px;
+            color: $white;
+            width: 39%;
+
+            .rates__chart {
+                margin-top: 24px;
+                background: transparent;
+            }
+
+            .rates__chart-header {
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .interval-buttons {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
+                margin-top: 16px;
+
+                button {
+                    padding: 6px 12px;
+                    border-radius: 8px;
+                    background: $dark-gray;
+                    color: #ccc;
+                    border: none;
+                    cursor: pointer;
+                    transition: background 0.3s;
+
+                    &.active {
+                        background: $gold-2;
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+
+    &__table {
+        width: 100%;
+        border: 1px solid $black;
+
+        tr {
+            display: flex;
+            gap: 50px;
+            padding-left: 60px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        tbody tr {
+            &:nth-child(odd) {
+                background-color: $dark-gray;
+            }
+        }
+
+        th,
+        td {
+            flex: 1;
+            text-align: left;
+
+            &:first-child {
+                flex: 1.5;
+            }
+        }
+
+        &-currency {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        &-flag {
+            border-radius: 5px;
+            width: 40px;
+            height: 30px;
+        }
+    }
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    color: $gold-2;
+    z-index: 10;
+
+    svg {
+        width: 40px;
+        height: 30px;
+    }
+}
+
+.selected-row {
+    background-color: #2b2b2b;
+    border-left: 4px solid $gold-2;
+}
+
+@media (max-width: 1024px) {
+    .rates__columns {
+        flex-direction: column;
+
+        &-left {
+            width: 100%;
+            display: block;
+        }
+
+        &-right {
+            width: 100%;
+            display: none;
+        }
+    }
+
+    .details-open {
+        .rates__columns-left {
+            display: none;
+        }
+
+        .rates__columns-right {
+            display: block;
+            width: 100%;
+        }
+    }
+}
