@@ -5,13 +5,11 @@ export interface CurrencyRate {
   currencyImage: string
   buyRate: number
   sellRate: number
-  change: string
   lastUpdate: string
 }
 
-const SHEET_ID = import.meta.env.VITE_GOOGLE_SHEET_ID as string
-const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY as string
-const RANGE = 'Sheet1!A2:F'
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY as string
 
 const formatDateTime = (dateString?: string): string => {
   const date = dateString ? new Date(dateString) : new Date()
@@ -30,8 +28,7 @@ const areRatesEqual = (oldRates: CurrencyRate[], newRates: CurrencyRate[]): bool
     return (
       oldRate.currency === newRate.currency &&
       oldRate.buyRate === newRate.buyRate &&
-      oldRate.sellRate === newRate.sellRate &&
-      oldRate.change === newRate.change
+      oldRate.sellRate === newRate.sellRate
     )
   })
 }
@@ -45,17 +42,22 @@ export function useRates() {
     loading.value = true
     try {
       const response = await fetch(
-        `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`,
+        `${SUPABASE_URL}/rest/v1/rates?select=currency,currencyImage,buyRate,sellRate,sent_at&order=id.asc`,
+        {
+          headers: {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+          },
+        },
       )
       const data = await response.json()
-      if (data.values) {
-        const newRates = data.values.map((row: string[]) => ({
-          currency: row[0] || '',
-          currencyImage: row[1] || '',
-          buyRate: parseFloat(row[2]) || 0,
-          sellRate: parseFloat(row[3]) || 0,
-          change: row[4] || '',
-          lastUpdate: row[5] || '',
+      if (Array.isArray(data)) {
+        const newRates = data.map((row: any) => ({
+          currency: row.currency || '',
+          currencyImage: row.currencyImage || '',
+          buyRate: parseFloat(row.buyRate) || 0,
+          sellRate: parseFloat(row.sellRate) || 0,
+          lastUpdate: formatDateTime(row.sent_at),
         }))
         const savedLastUpdate = localStorage.getItem('ratesLastUpdate')
         if (rates.value.length === 0) {
