@@ -59,16 +59,17 @@ export function useRates() {
           sellRate: parseFloat(row.sellRate) || 0,
           lastUpdate: formatDateTime(row.sent_at),
         }))
-        const savedLastUpdate = localStorage.getItem('ratesLastUpdate')
-        if (rates.value.length === 0) {
-          rates.value = newRates
-          lastUpdate.value = savedLastUpdate || 'Need to update'
-        } else if (!areRatesEqual(rates.value, newRates)) {
-          rates.value = newRates
-          const newTime = formatDateTime()
-          lastUpdate.value = newTime
-          localStorage.setItem('ratesLastUpdate', newTime)
-        }
+        const latestSentAt = data
+          .map((row: any) => row.sent_at)
+          .filter(Boolean)
+          .sort()
+          .reverse()[0]
+
+        const formattedUpdate = latestSentAt ? formatDateTime(latestSentAt) : 'N/A'
+
+        rates.value = newRates
+        lastUpdate.value = formattedUpdate
+        localStorage.setItem('ratesLastUpdate', formattedUpdate)
       }
     } catch (error) {
       console.error('Error fetching rates:', error)
