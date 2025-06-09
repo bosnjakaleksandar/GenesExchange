@@ -24,12 +24,19 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 10px;
         margin-bottom: 20px;
 
         @include mq (1024) {
             flex-direction: column;
             align-items: center;
             justify-content: center;
+        }
+
+        &-content {
+            @include mq (1024) {
+                text-align: center;
+            }
         }
     }
 

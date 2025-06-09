@@ -114,9 +114,15 @@ function renderChart() {
     <div class="rates__container">
       <div class="rates__top">
         <h1 class="rates__title i-48-700"><span>GENES</span>EXCHANGE</h1>
-        <p class="rates__time i-16-400">
-          Last update: {{ lastUpdate || 'Error' }}<span v-if="loading"> (Updating...)</span>
-        </p>
+        <div class="rates__top-content">
+          <p class="rates__time i-16-400">
+            Poslednji put ažurirano: {{ lastUpdate || 'Error'
+            }}<span v-if="loading"> (Updating...)</span>
+          </p>
+          <p class="rates__description i-16-400">
+            Kursevi su informativnog karaktera i podložni su promenama.
+          </p>
+        </div>
       </div>
 
       <div class="rates__columns">
