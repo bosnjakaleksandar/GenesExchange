@@ -10,9 +10,9 @@ const router = createRouter({
       name: 'auth',
       component: AuthView,
     },
-        {
-      path: '/rates',
-      name: 'rates',
+    {
+      path: '/kursna-lista',
+      name: 'kursna-lista',
       component: RatesView,
     },
     // {

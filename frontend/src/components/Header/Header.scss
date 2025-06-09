@@ -1,0 +1,86 @@
+.header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    border-bottom: 1px solid $black;
+
+    &__container {
+        margin: 0 7%
+    }
+
+    &__nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        max-height: 100px;
+    }
+
+    &__menu {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        color: $white;
+
+        svg {
+            display: none;
+        }
+
+        a {
+            color: $white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+
+            &:hover {
+                color: $gold-2;
+            }
+        }
+    }
+
+    &__logo {
+        max-width: 150px;
+
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+    }
+
+    @include mq (1024) {
+        top: unset;
+        bottom: 0;
+        background-color: $dark-gray;
+        border-radius: 20px 20px 0 0;
+
+        &__logo {
+            display: none;
+        }
+
+        &__nav {
+            justify-content: center;
+            align-items: center;
+        }
+
+        &__menu {
+            gap: 40px;
+
+            svg {
+                display: block;
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        &__menu-item a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+    }
+}
