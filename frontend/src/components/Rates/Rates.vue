@@ -1,17 +1,18 @@
 <script lang="ts" setup>
 import { ref, onMounted, watch, onUnmounted } from 'vue'
 import { useRates } from '@/services/api/useRates'
+import { useRateHistory } from '@/services/api/useRatesHistory'
 import { Chart, registerables } from 'chart.js'
 import ArrowSvg from '@/svg/ArrowSvg.vue'
 Chart.register(...registerables)
 
 const { rates, lastUpdate, loading, fetchRates } = useRates()
+const { history, loading: loadingHistory, fetchHistory } = useRateHistory()
+
 const selectedCurrency = ref<string>('')
 const selectedType = ref<'buy' | 'sell'>('buy')
 const selectedInterval = ref<'day' | 'week' | 'month' | 'year'>('day')
-
 const detailsOpen = ref(false)
-
 const chartCanvas = ref<HTMLCanvasElement | null>(null)
 let chartInstance: Chart | null = null
 
@@ -42,9 +43,18 @@ watch(rates, (newRates) => {
   if (newRates.length && !selectedCurrency.value) {
     selectedCurrency.value = newRates[0].currency
   }
+  if (selectedCurrency.value) {
+    fetchHistory(selectedCurrency.value, selectedInterval.value)
+  }
 })
 
 watch([selectedCurrency, selectedType, selectedInterval], () => {
+  if (selectedCurrency.value) {
+    fetchHistory(selectedCurrency.value, selectedInterval.value)
+  }
+})
+
+watch(history, () => {
   renderChart()
 })
 
@@ -69,13 +79,22 @@ const handleIntervalChange = (interval: 'day' | 'week' | 'month' | 'year') => {
 
 function renderChart() {
   if (!chartCanvas.value) return
-  const rate = rates.value.find((r) => r.currency === selectedCurrency.value)
-  if (!rate) return
+  if (!history.value.length) {
+    if (chartInstance) {
+      chartInstance.destroy()
+      chartInstance = null
+    }
+    return
+  }
 
-  const labels = Array(10)
-    .fill('')
-    .map((_, i) => `${selectedInterval.value}-${i + 1}`)
-  const data = Array(10).fill(selectedType.value === 'buy' ? rate.buyRate : rate.sellRate)
+  const labels = history.value.map((entry) => entry.recorded_at.replace('T', ' ').substring(0, 16))
+  const data = history.value.map((entry) =>
+    selectedType.value === 'buy' ? entry.buyRate : entry.sellRate,
+  )
+
+  const minY = Math.min(...data)
+  const maxY = Math.max(...data)
+  const padding = (maxY - minY) * 0.1 || 0.5
 
   if (chartInstance) {
     chartInstance.destroy()
@@ -92,17 +111,35 @@ function renderChart() {
           backgroundColor: 'rgba(224, 165, 1, 0.1)',
           tension: 0.4,
           pointRadius: 0,
+          fill: true,
         },
       ],
     },
     options: {
       responsive: true,
       scales: {
-        y: { display: false },
+        y: {
+          display: false,
+          min: minY - padding,
+          max: maxY + padding,
+        },
         x: { display: false },
       },
       plugins: {
         legend: { display: false },
+        tooltip: {
+          enabled: true,
+          intersect: false,
+          mode: 'index',
+          callbacks: {
+            label: function (context) {
+              return `Kurs: ${context.parsed.y.toFixed(2)}`
+            },
+            title: function (context) {
+              return `Vreme: ${context[0].label}`
+            },
+          },
+        },
       },
     },
   })
@@ -199,7 +236,8 @@ function renderChart() {
               SELL
             </button>
           </div>
-          <canvas ref="chartCanvas" class="rates__chart"></canvas>
+          <div v-if="loadingHistory" class="rates__chart-loading">Učitavanje grafikona...</div>
+          <canvas v-show="!loadingHistory" ref="chartCanvas" class="rates__chart"></canvas>
           <div class="rates__interval-buttons">
             <button
               v-for="interval in ['day', 'week', 'month', 'year']"
