@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import Header from '../components/Header/Header.vue'
-import Rates from '../components/Rates/Rates.vue'
+import Hero from '../components/Hero/Hero.vue'
 </script>
 
 <template>
   <Header />
   <main>
-    <Rates />
+    <Hero />
   </main>
 </template>

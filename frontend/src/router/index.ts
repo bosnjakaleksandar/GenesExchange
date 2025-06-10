@@ -1,14 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AuthView from '../views/AuthView.vue'
+// import AuthView from '../views/AuthView.vue'
+import HomeView from '@/views/HomeView.vue'
 import RatesView from '../views/RatesView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    // {
+    //   path: '/',
+    //   name: 'auth',
+    //   component: AuthView,
+    // },
     {
       path: '/',
-      name: 'auth',
-      component: AuthView,
+      name: 'početna',
+      component: HomeView,
     },
     {
       path: '/kursna-lista',

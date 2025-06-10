@@ -1,6 +1,6 @@
 <script lang="ts" setup></script>
 <template>
-  <div class="header">
+  <header class="header">
     <div class="header__container">
       <nav class="header__nav">
         <div class="header__logo">
@@ -34,6 +34,6 @@
         </ul>
       </nav>
     </div>
-  </div>
+  </header>
 </template>
 <style lang="scss" src="./Header.scss"></style>

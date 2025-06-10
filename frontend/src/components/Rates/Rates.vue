@@ -43,12 +43,17 @@ watch(rates, (newRates) => {
   if (newRates.length && !selectedCurrency.value) {
     selectedCurrency.value = newRates[0].currency
   }
-  if (selectedCurrency.value) {
-    fetchHistory(selectedCurrency.value, selectedInterval.value)
+})
+
+watch(selectedCurrency, (newCurrency) => {
+  if (newCurrency) {
+    selectedType.value = 'buy'
+    selectedInterval.value = 'day'
+    fetchHistory(newCurrency, 'day')
   }
 })
 
-watch([selectedCurrency, selectedType, selectedInterval], () => {
+watch([selectedType, selectedInterval], () => {
   if (selectedCurrency.value) {
     fetchHistory(selectedCurrency.value, selectedInterval.value)
   }
