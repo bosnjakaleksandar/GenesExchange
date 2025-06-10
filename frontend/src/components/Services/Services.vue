@@ -7,6 +7,7 @@
       </div>
       <ul class="services__cards">
         <li class="services__card">
+          <font-awesome-icon :icon="['fas', 'hand-holding-dollar']" class="services__card-icon" />
           <h3 class="services__card-title i-24-600">Menjački poslovi</h3>
           <p class="services__card-description i-18-400">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
