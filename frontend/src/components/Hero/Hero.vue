@@ -11,7 +11,7 @@ import { RouterLink } from 'vue-router'
         <p class="hero__subtitle i-36-700">
           Nalazimo se na Novosadskom sajmu - lako dostupni, uvek tu za vas
         </p>
-        <router-link class="hero__cta i-16-700" to="/kursna-lista">
+        <router-link class="hero__cta i-16-600" to="/kursna-lista">
           Kursna Lista
           <ArrowSvg />
         </router-link>
