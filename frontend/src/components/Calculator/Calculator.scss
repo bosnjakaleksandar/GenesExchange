@@ -1,15 +1,13 @@
 .calculator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
 
     &__container {
-        margin: 0 10%;
-
-        @include mq (768) {
-            margin: 0 5%;
-        }
+        margin: 0 auto;
+        width: 80%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     &__card {
@@ -17,9 +15,18 @@
         padding: 20px 50px;
         border-radius: 16px;
         color: $white;
+        width: fit-content;
 
         &-text {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+
+            @include mq (540) {
+                text-align: center;
+            }
+        }
+
+        @include mq (540) {
+            width: 100%;
         }
     }
 
@@ -30,13 +37,14 @@
         align-items: center;
         gap: 20px;
 
-        @include mq (768) {
+        @include mq (540) {
             flex-direction: column;
         }
     }
 
     &__dropdown {
         color: $gold-2;
+        width: 160px;
     }
 
     &__currency-image {
@@ -58,7 +66,7 @@
         width: 100%;
         margin: 10% 0;
 
-        @include mq (768) {
+        @include mq (540) {
             margin: 20% 0;
         }
     }
@@ -73,12 +81,23 @@
         border-radius: 50%;
         z-index: 1;
         pointer-events: auto;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
 
         svg {
+            transition: all 0.3s ease;
             color: $gold-2;
             transform: rotate(90deg);
             width: 25px;
             height: 25px;
+        }
+
+        &:hover {
+            border: 1px solid $gold-2;
+
+            svg {
+                transform: rotate(270deg) scale(1.2);
+            }
         }
     }
 
@@ -88,6 +107,21 @@
         padding: 10px;
         border-radius: 10px;
         color: $white;
+
+        @include mq (540) {
+            width: 100%;
+        }
+    }
+
+    &__result span {
+        @include mq (540) {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            text-align: center;
+        }
     }
 }
 
@@ -98,7 +132,6 @@
 .multiselect__tags {
     background-color: transparent;
     border: none;
-    width: 211px;
 }
 
 .multiselect__single {

@@ -2,6 +2,7 @@
 import Header from '../components/Header/Header.vue'
 import Hero from '../components/Hero/Hero.vue'
 import Services from '@/components/Services/Services.vue'
+import Footer from '../components/Footer/Footer.vue'
 </script>
 
 <template>
@@ -10,4 +11,5 @@ import Services from '@/components/Services/Services.vue'
     <Hero />
     <Services />
   </main>
+  <Footer />
 </template>

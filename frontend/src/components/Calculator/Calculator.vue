@@ -42,10 +42,10 @@ function toggleReverse() {
     <div class="calculator__container">
       <div class="calculator__card">
         <div class="calculator__card-top">
-          <p class="calculator__card-text">
-            {{ isReverse ? 'Unesite iznos strane valute' : 'Unesite iznos koji menjate' }}
+          <p class="calculator__card-text i-14-400">
+            {{ isReverse ? 'Iznos za kupovinu strane valute' : 'Iznos za zamenu strane valute' }}
           </p>
-          <div v-if="!loading" class="calculator__inputs">
+          <div v-if="!loading" class="calculator__inputs i-14-400">
             <img
               v-if="selectedCurrency?.currencyImage"
               :src="selectedCurrency.currencyImage"
@@ -77,8 +77,8 @@ function toggleReverse() {
             <input
               type="text"
               v-model="amount"
-              :placeholder="isReverse ? 'Iznos strane valute' : 'Iznos'"
-              class="calculator__input"
+              placeholder="Iznos"
+              class="calculator__input i-14-400"
               :disabled="!selectedCurrency"
               @input="onAmountInput"
             />
@@ -91,11 +91,11 @@ function toggleReverse() {
           /></span>
         </div>
         <div class="calculator__card-bottom">
-          <p class="calculator__card-text">
+          <p class="calculator__card-text i-14-400">
             {{
               isReverse
-                ? 'Koliko dinara treba za iznos strane valute'
-                : 'Iznos koji bi ste dobili za iznos koji menjate'
+                ? 'Koliko dinara je potrebno za željeni iznos strane valute'
+                : 'Koliko dinara biste dobili za iznos koji menjate'
             }}
           </p>
           <div class="calculator__result">
@@ -103,9 +103,9 @@ function toggleReverse() {
               <img class="calculator__currency-image" src="https://flagcdn.com/h40/rs.png" />
               {{ result }} RSD
             </span>
-            <span v-else>
+            <span v-else class="i-14-400">
               <img class="calculator__currency-image" src="https://flagcdn.com/h40/rs.png" />
-              Unesite iznos
+              Unesite iznos i izaberite valutu da biste dobili rezultat
             </span>
           </div>
         </div>
