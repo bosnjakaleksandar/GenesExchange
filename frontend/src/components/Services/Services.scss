@@ -1,6 +1,10 @@
 .services {
     &__container {
         margin: 0 10%;
+
+        @include mq(1024) {
+            margin: 0 5%;
+        }
     }
 
     &__title {

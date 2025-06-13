@@ -4,7 +4,9 @@
     <div class="header__container">
       <nav class="header__nav">
         <div class="header__logo">
-          <img src="../../../public/logo.png" alt="Logo" />
+          <router-link to="/">
+            <img src="../../../public/logo.png" alt="Logo" />
+          </router-link>
         </div>
         <ul class="header__menu">
           <li class="header__menu-item i-16-400">

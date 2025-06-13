@@ -1,9 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const currentYear = new Date().getFullYear()
+</script>
 <template>
   <footer class="footer">
     <div class="footer__container">
       <div class="footer__logo">
-        <img src="../../../public/logo.png" alt="Menjačnica Genes Logo" />
+        <router-link to="/">
+          <img src="../../../public/logo.png" alt="Menjačnica Genes Logo" />
+        </router-link>
         <p class="footer__description">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt
           ut labore et dolore magna aliqua.
@@ -38,7 +42,7 @@
       <hr class="footer__divider" />
       <div class="footer__bottom">
         <p class="footer__text i-14-400">
-          © 2023 Menjačnica Genes. All rights reserved. Design and Development by
+          © {{ currentYear }} Menjačnica Genes. All rights reserved. Design and Development by
           @bosnjakaleksandar
         </p>
       </div>

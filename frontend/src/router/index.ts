@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import AuthView from '../views/AuthView.vue'
 import HomeView from '@/views/HomeView.vue'
+import AboutView from '@/views/AboutView.vue'
 import RatesView from '../views/RatesView.vue'
 import CalculatorView from '@/views/CalculatorView.vue'
 
@@ -16,6 +17,11 @@ const router = createRouter({
       path: '/',
       name: 'početna',
       component: HomeView,
+    },
+    {
+      path: '/o-nama',
+      name: 'o-nama',
+      component: AboutView,
     },
     {
       path: '/kursna-lista',
