@@ -8,6 +8,7 @@ const { rates, fetchRates, loading } = useRates()
 const selectedCurrency = ref<CurrencyRate | null>(null)
 const amount = ref<number | null>(null)
 const isReverse = ref(false)
+const isChangeActive = ref(false)
 
 onMounted(fetchRates)
 
@@ -34,6 +35,22 @@ function onAmountInput(e: Event) {
 function toggleReverse() {
   isReverse.value = !isReverse.value
   amount.value = null
+}
+
+function isDesktop() {
+  return window.innerWidth >= 1024
+}
+
+function handleChangeHover(state: boolean) {
+  if (isDesktop()) {
+    isChangeActive.value = state
+  }
+}
+
+function handleChangeClick() {
+  if (!isDesktop()) {
+    isChangeActive.value = !isChangeActive.value
+  }
 }
 </script>
 
@@ -86,9 +103,16 @@ function toggleReverse() {
         </div>
         <div class="calculator__card-middle">
           <hr class="calculator__divider" />
-          <span class="calculator__change" @click="toggleReverse" style="cursor: pointer"
-            ><font-awesome-icon :icon="['fas', 'arrow-right-arrow-left']"
-          /></span>
+          <span
+            class="calculator__change"
+            :class="{ 'calculator__change--active': isChangeActive }"
+            @click="() => { toggleReverse(); handleChangeClick(); }"
+            @mouseenter="() => handleChangeHover(true)"
+            @mouseleave="() => handleChangeHover(false)"
+            style="cursor: pointer"
+          >
+            <font-awesome-icon :icon="['fas', 'arrow-right-arrow-left']" />
+          </span>
         </div>
         <div class="calculator__card-bottom">
           <p class="calculator__card-text i-14-400">
