@@ -7,6 +7,10 @@
         align-items: center;
         justify-content: center;
         height: 100vh;
+
+        @include mq (1024) {
+            margin: 0 5%;
+        }
     }
 
     &__background {
@@ -42,7 +46,7 @@
         a {
             background-color: $gold-2;
             padding: 15px 40px;
-            border-radius: 20px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             width: fit-content;

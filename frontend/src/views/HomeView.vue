@@ -8,7 +8,12 @@ import Footer from '../components/Footer/Footer.vue'
 <template>
   <Header />
   <main>
-    <Hero />
+    <Hero
+      title="Vaš pouzdan partner za razmenu valuta"
+      subtitle="Nalazimo se na Novosadskom sajmu - lako dostupni, uvek tu za vas"
+      classFont="i-36-700"
+      :link="{ text: 'Kursna lista', url: '/kursna-lista' }"
+    />
     <Services />
   </main>
   <Footer />

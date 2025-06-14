@@ -8,9 +8,8 @@ const currentYear = new Date().getFullYear()
         <router-link to="/">
           <img src="../../../public/logo.png" alt="Menjačnica Genes Logo" />
         </router-link>
-        <p class="footer__description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua.
+        <p class="footer__description i-16-400">
+          Vaš pouzdan partner u zameni valuta. Od 2014. posvećeni vašim potrebama.
         </p>
       </div>
       <hr class="footer__divider" />
