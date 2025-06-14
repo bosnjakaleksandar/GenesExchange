@@ -17,22 +17,22 @@ function isExternal(url: string): boolean {
   <section class="hero">
     <div class="hero__container">
       <div class="hero__background"></div>
-      <div class="hero__content">
-        <h1 class="hero__title i-64-800">{{ title }}</h1>
-        <p class="hero__subtitle" :class="classFont">
+      <div class="hero__content | timeline-hero">
+        <h1 class="hero__title i-64-800 | js-hero">{{ title }}</h1>
+        <p class="hero__subtitle | js-hero" :class="classFont">
           {{ subtitle }}
         </p>
         <template v-if="link">
           <a
             v-if="isExternal(link.url)"
             :href="link.url"
-            class="hero__cta i-16-600"
+            class="hero__cta i-16-600 | js-hero"
             target="_blank"
           >
             {{ link.text }}
             <ArrowSvg />
           </a>
-          <router-link v-else="link" class="hero__cta i-16-600" :to="link.url">
+          <router-link v-else="link" class="hero__cta i-16-600 | js-hero" :to="link.url">
             {{ link.text }}
             <ArrowSvg />
           </router-link>

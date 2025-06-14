@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-import { ref, onMounted, watch, onUnmounted } from 'vue'
+import { ref, onMounted, watch, onUnmounted, nextTick } from 'vue'
 import { useRates } from '@/services/api/useRates'
 import { useRateHistory } from '@/services/api/useRatesHistory'
 import { Chart, registerables } from 'chart.js'
 import ArrowSvg from '@/svg/ArrowSvg.vue'
+import animations from '@/animations/animations'
+
 Chart.register(...registerables)
 
 const { rates, lastUpdate, loading, fetchRates } = useRates()
@@ -20,11 +22,14 @@ const isMobile = ref(false)
 const updateIsMobile = () => {
   isMobile.value = window.innerWidth <= 1024
 }
+
 onMounted(() => {
   updateIsMobile()
   window.addEventListener('resize', updateIsMobile)
   fetchRates()
   setInterval(fetchRates, 30 * 60 * 1000)
+
+  animations()
 })
 
 onUnmounted(() => {
@@ -39,9 +44,14 @@ const handleImageError = (event: Event) => {
   img.style.display = 'none'
 }
 
-watch(rates, (newRates) => {
+watch(rates, async (newRates) => {
   if (newRates.length && !selectedCurrency.value) {
     selectedCurrency.value = newRates[0].currency
+  }
+
+  if (newRates.length > 0) {
+    await nextTick()
+    animations()
   }
 })
 
@@ -154,7 +164,7 @@ function renderChart() {
 <template>
   <section class="rates" :class="{ 'rates--details-open': detailsOpen }">
     <div class="rates__container">
-      <div class="rates__top">
+      <div class="rates__top | js-from-down">
         <h1 class="rates__title i-48-700"><span>GENES</span>EXCHANGE</h1>
         <div class="rates__top-content">
           <p class="rates__time i-16-400">
@@ -171,13 +181,13 @@ function renderChart() {
         <div class="rates__columns-left">
           <table class="rates__table">
             <thead>
-              <tr>
+              <tr class="| js-from-down">
                 <th class="i-16-700">Valuta</th>
                 <th class="i-16-700">Kupovni</th>
                 <th class="i-16-700">Prodajni</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="| js-from-down">
               <tr
                 v-for="rate in rates"
                 :key="rate.currency"

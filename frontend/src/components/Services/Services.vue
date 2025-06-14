@@ -1,14 +1,20 @@
 <script lang="ts" setup>
 import ArrowSvg from '@/svg/ArrowSvg.vue'
+import { onMounted } from 'vue'
+import animations from '../../animations/animations'
+
+onMounted(() => {
+  animations()
+})
 </script>
 <template>
   <section class="services">
-    <div class="services__container">
+    <div class="services__container | timeline-block">
       <div class="services__header">
-        <h2 class="services__title i-48-700">Naše usluge</h2>
+        <h2 class="services__title i-48-700 | js-from-down-tl">Naše usluge</h2>
       </div>
       <ul class="services__cards">
-        <li class="services__card">
+        <li class="services__card | js-from-down-tl">
           <font-awesome-icon :icon="['fas', 'hand-holding-dollar']" class="services__card-icon" />
           <h3 class="services__card-title i-24-600">Menjački poslovi</h3>
           <p class="services__card-description i-18-400">
@@ -16,7 +22,7 @@ import ArrowSvg from '@/svg/ArrowSvg.vue'
             stimulativnog kursa za veće transakcije.
           </p>
         </li>
-        <li class="services__card">
+        <li class="services__card | js-from-down-tl">
           <img class="services__card-icon2" src="../../../public/payspot.png" alt="Payspot Icon" />
           <h3 class="services__card-title i-24-600">Platni promet</h3>
           <p class="services__card-description i-18-400">
@@ -34,7 +40,7 @@ import ArrowSvg from '@/svg/ArrowSvg.vue'
             <ArrowSvg />
           </a>
         </li>
-        <li class="services__card">
+        <li class="services__card | js-from-down-tl">
           <img class="services__card-icon" src="../../../public/lutrija.png" alt="Lutrija Icon" />
           <h3 class="services__card-title i-24-600">Lutrija</h3>
           <p class="services__card-description i-18-400">
