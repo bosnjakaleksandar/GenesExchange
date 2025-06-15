@@ -10,7 +10,7 @@ import Footer from '../components/Footer/Footer.vue'
   <main>
     <Hero
       title="Vaš pouzdan partner za razmenu valuta"
-      subtitle="Nalazimo se na Novosadskom sajmu - lako dostupni, uvek tu za vas"
+      subtitle="Nalazimo se na Novosadskom sajmu. Lako dostupni, uvek tu za vas."
       classFont="i-36-700"
       :link="{ text: 'Kursna lista', url: '/kursna-lista' }"
     />

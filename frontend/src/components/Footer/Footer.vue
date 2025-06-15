@@ -21,24 +21,24 @@ const currentYear = new Date().getFullYear()
       </div>
       <hr class="footer__divider | js-hr-animate" />
       <div class="footer__content">
-        <ul class="footer__info i-14-400 | timeline-block">
-          <li class="| js-from-down-tl">
+        <ul class="footer__info i-14-400 | js-from-down">
+          <li>
             <font-awesome-icon :icon="['fas', 'clock']" /><span
               >Radno vreme<br />Pon-pet: 08:30H - 17:00H <br />
               Sub: 08:30H - 14:00H</span
             >
           </li>
-          <li class="| js-from-down-tl">
+          <li>
             <font-awesome-icon :icon="['fas', 'location-dot']" /><span
               >Lokacija<br />Hajduk Veljkova 11</span
             >
           </li>
-          <li class="| js-from-down-tl">
+          <li>
             <font-awesome-icon :icon="['fas', 'phone']" /><span
               >Broj Telefona<br />+381 60 000 000</span
             >
           </li>
-          <li class="| js-from-down-tl">
+          <li>
             <font-awesome-icon :icon="['fas', 'envelope']" /><span
               >Email Adresa<br />menjacnicagenes@gmail.com</span
             >
@@ -46,8 +46,8 @@ const currentYear = new Date().getFullYear()
         </ul>
       </div>
       <hr class="footer__divider | js-hr-animate" />
-      <div class="footer__bottom">
-        <p class="footer__text i-14-400 | js-from-down">
+      <div class="footer__bottom | js-from-down">
+        <p class="footer__text i-14-400">
           © {{ currentYear }} Menjačnica Genes. All rights reserved. Design and Development by
           @bosnjakaleksandar
         </p>

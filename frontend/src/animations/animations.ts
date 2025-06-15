@@ -49,7 +49,7 @@ const animations = () => {
       })
   })
 
-  // Timeline blocks with ROW GROUPING (like the original)
+  // Timeline blocks
   const blocks = document.querySelectorAll('.timeline-block')
   blocks.forEach((block) => {
     const hasApiElements = block.querySelector('.js-from-down')
@@ -60,7 +60,6 @@ const animations = () => {
     const elements = Array.from(block.querySelectorAll('.js-from-down-tl'))
     if (elements.length === 0) return
 
-    // GROUP BY ROWS based on offsetTop (this was the key part!)
     const rows: Record<number, Element[]> = {}
     elements.forEach((el) => {
       const top = (el as HTMLElement).offsetTop
@@ -68,13 +67,12 @@ const animations = () => {
       rows[top].push(el)
     })
 
-    // Animate each row separately
     Object.values(rows).forEach((row) => {
       gsap.set(row, { opacity: 0, y: 50 })
       gsap.to(row, {
         scrollTrigger: {
-          trigger: row[0], // Use first element of the row as trigger
-          start: 'top 70%',
+          trigger: row[0],
+          start: 'top 80%',
           once: false,
           markers: false,
         },
@@ -82,7 +80,7 @@ const animations = () => {
         y: 0,
         duration: 0.5,
         stagger: {
-          each: 0.3, // Stagger within the row
+          each: 0.3,
         },
         onComplete: function () {
           this.targets()[0].style.transform = ''
@@ -101,7 +99,7 @@ const animations = () => {
     gsap.to(childElements, {
       scrollTrigger: {
         trigger: container,
-        start: 'top 80%',
+        start: 'top 90%',
         toggleActions: 'play none none none',
         once: true,
       },
@@ -123,7 +121,7 @@ const animations = () => {
       ease: 'power2.out',
       scrollTrigger: {
         trigger: hr,
-        start: 'top 80%',
+        start: 'top 90%',
         toggleActions: 'play none none none',
         once: true,
       },
