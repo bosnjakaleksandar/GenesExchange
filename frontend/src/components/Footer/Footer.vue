@@ -13,7 +13,7 @@ const currentYear = new Date().getFullYear()
     <div class="footer__container">
       <div class="footer__logo | timeline-block">
         <router-link class="| js-from-down-tl" to="/">
-          <img src="../../../public/logo.png" alt="Menjačnica Genes Logo" />
+          <img src="../../../public/logo.webp" alt="Menjačnica Genes Logo" />
         </router-link>
         <p class="footer__description i-16-400 | js-from-down-tl">
           Vaš pouzdan partner u zameni valuta. Od 2014. posvećeni vašim potrebama.

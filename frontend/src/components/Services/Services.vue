@@ -23,7 +23,7 @@ onMounted(() => {
           </p>
         </li>
         <li class="services__card | js-from-down-tl">
-          <img class="services__card-icon2" src="../../../public/payspot.png" alt="Payspot Icon" />
+          <img class="services__card-icon2" src="../../../public/payspot.webp" alt="Payspot Icon" />
           <h3 class="services__card-title i-24-600">Platni promet</h3>
           <p class="services__card-description i-18-400">
             Usluge platnog prometa (Uplata računa, komunalija, osiguranja, pazara...) vršimo u
@@ -41,7 +41,7 @@ onMounted(() => {
           </a>
         </li>
         <li class="services__card | js-from-down-tl">
-          <img class="services__card-icon" src="../../../public/lutrija.png" alt="Lutrija Icon" />
+          <img class="services__card-icon" src="../../../public/lutrija.webp" alt="Lutrija Icon" />
           <h3 class="services__card-title i-24-600">Lutrija</h3>
           <p class="services__card-description i-18-400">
             Uplatite svoj listić za Loto ili Bingo, ogrebite srećku ili učestvujte u nekoj od igara

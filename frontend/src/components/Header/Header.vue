@@ -5,7 +5,7 @@
       <nav class="header__nav">
         <div class="header__logo">
           <router-link to="/">
-            <img src="../../../public/logo.png" alt="Logo" />
+            <img src="../../../public/logo.webp" alt="Logo" />
           </router-link>
         </div>
         <ul class="header__menu">

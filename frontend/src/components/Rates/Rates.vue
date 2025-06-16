@@ -19,8 +19,14 @@ const chartCanvas = ref<HTMLCanvasElement | null>(null)
 let chartInstance: Chart | null = null
 
 const isMobile = ref(false)
+const showSkeleton = ref(true)
+const minSkeletonTime = ref(false)
 const updateIsMobile = () => {
   isMobile.value = window.innerWidth <= 1024
+}
+
+const updateSkeletonVisibility = () => {
+  showSkeleton.value = loading.value || !minSkeletonTime.value
 }
 
 onMounted(() => {
@@ -28,6 +34,11 @@ onMounted(() => {
   window.addEventListener('resize', updateIsMobile)
   fetchRates()
   setInterval(fetchRates, 30 * 60 * 1000)
+
+  setTimeout(() => {
+    minSkeletonTime.value = true
+    updateSkeletonVisibility()
+  }, 1000)
 
   animations()
 })
@@ -49,9 +60,38 @@ watch(rates, async (newRates) => {
     selectedCurrency.value = newRates[0].currency
   }
 
-  if (newRates.length > 0) {
+  updateSkeletonVisibility()
+
+  if (newRates.length > 0 && !showSkeleton.value) {
     await nextTick()
     animations()
+  }
+})
+
+watch(loading, () => {
+  updateSkeletonVisibility()
+})
+
+watch(showSkeleton, async (isSkeletonVisible) => {
+  if (!isSkeletonVisible && rates.value.length > 0) {
+    await nextTick()
+    const table = document.querySelector('.rates__table') as HTMLElement
+    if (table) {
+      table.style.opacity = '0'
+      table.style.transition = 'opacity 0.5s ease-in-out'
+      setTimeout(() => {
+        table.style.opacity = '1'
+      }, 50)
+    }
+
+    const rightContent = document.querySelector('.rates__right-content') as HTMLElement
+    if (rightContent) {
+      rightContent.style.opacity = '0'
+      rightContent.style.transition = 'opacity 0.5s ease-in-out'
+      setTimeout(() => {
+        rightContent.style.opacity = '1'
+      }, 50)
+    }
   }
 })
 
@@ -179,15 +219,38 @@ function renderChart() {
 
       <div class="rates__columns">
         <div class="rates__columns-left">
-          <table class="rates__table">
+          <!-- Skeleton loader -->
+          <div v-if="showSkeleton" class="rates__skeleton">
+            <div class="rates__skeleton-header">
+              <div class="rates__skeleton-item"></div>
+              <div class="rates__skeleton-item"></div>
+              <div class="rates__skeleton-item"></div>
+            </div>
+            <div class="rates__skeleton-rows">
+              <div
+                v-for="i in 7"
+                :key="i"
+                class="rates__skeleton-row"
+                :style="{ animationDelay: `${i * 0.1}s` }"
+              >
+                <div class="rates__skeleton-item rates__skeleton-item--flag"></div>
+                <div class="rates__skeleton-item rates__skeleton-item--currency"></div>
+                <div class="rates__skeleton-item rates__skeleton-item--rate"></div>
+                <div class="rates__skeleton-item rates__skeleton-item--rate"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rates table -->
+          <table v-else class="rates__table">
             <thead>
-              <tr class="| js-from-down">
+              <tr>
                 <th class="i-16-700">Valuta</th>
                 <th class="i-16-700">Kupovni</th>
                 <th class="i-16-700">Prodajni</th>
               </tr>
             </thead>
-            <tbody class="| js-from-down">
+            <tbody>
               <tr
                 v-for="rate in rates"
                 :key="rate.currency"
@@ -224,44 +287,67 @@ function renderChart() {
           >
             <ArrowSvg />
           </button>
-          <div class="rates__chart-header">
-            <img
-              v-if="rates.find((r) => r.currency === selectedCurrency)?.currencyImage"
-              :src="rates.find((r) => r.currency === selectedCurrency)?.currencyImage"
-              :alt="selectedCurrency"
-              class="rates__table-flag"
-              @error="handleImageError"
-              style="width: 40px; height: 30px"
-            />
-            <h2 class="i-24-600" style="display: flex; align-items: center; gap: 10px">
-              {{ selectedCurrency }} - {{ selectedType === 'buy' ? 'Kupovni' : 'Prodajni' }}
-            </h2>
+
+          <!-- Right column skeleton -->
+          <div v-if="showSkeleton" class="rates__right-skeleton">
+            <div class="rates__right-skeleton-header">
+              <div class="rates__right-skeleton-flag"></div>
+              <div class="rates__right-skeleton-title"></div>
+            </div>
+            <div class="rates__right-skeleton-buttons">
+              <div class="rates__right-skeleton-button"></div>
+              <div class="rates__right-skeleton-button"></div>
+            </div>
+            <div class="rates__right-skeleton-chart"></div>
+            <div class="rates__right-skeleton-buttons">
+              <div class="rates__right-skeleton-button rates__right-skeleton-button--small"></div>
+              <div class="rates__right-skeleton-button rates__right-skeleton-button--small"></div>
+              <div class="rates__right-skeleton-button rates__right-skeleton-button--small"></div>
+              <div class="rates__right-skeleton-button rates__right-skeleton-button--small"></div>
+            </div>
           </div>
-          <div class="rates__interval-buttons">
-            <button
-              :class="{ 'rates__interval-button--active': selectedType === 'buy' }"
-              @click="handleTypeChange('buy')"
-            >
-              BUY
-            </button>
-            <button
-              :class="{ 'rates__interval-button--active': selectedType === 'sell' }"
-              @click="handleTypeChange('sell')"
-            >
-              SELL
-            </button>
-          </div>
-          <div v-if="loadingHistory" class="rates__chart-loading">Učitavanje grafikona...</div>
-          <canvas v-show="!loadingHistory" ref="chartCanvas" class="rates__chart"></canvas>
-          <div class="rates__interval-buttons">
-            <button
-              v-for="interval in ['day', 'week', 'month', 'year']"
-              :key="interval"
-              :class="{ 'rates__interval-button--active': selectedInterval === interval }"
-              @click="handleIntervalChange(interval as 'day' | 'week' | 'month' | 'year')"
-            >
-              {{ interval.charAt(0).toUpperCase() + interval.slice(1) }}
-            </button>
+
+          <!-- Chart column -->
+          <div v-else class="rates__right-content">
+            <div class="rates__chart-header">
+              <img
+                v-if="rates.find((r) => r.currency === selectedCurrency)?.currencyImage"
+                :src="rates.find((r) => r.currency === selectedCurrency)?.currencyImage"
+                :alt="selectedCurrency"
+                class="rates__table-flag"
+                @error="handleImageError"
+                style="width: 40px; height: 30px"
+              />
+              <h2 class="i-24-600" style="display: flex; align-items: center; gap: 10px">
+                {{ selectedCurrency }} - {{ selectedType === 'buy' ? 'Kupovni' : 'Prodajni' }}
+              </h2>
+            </div>
+            <div class="rates__interval-buttons">
+              <button
+                :class="{ 'rates__interval-button--active': selectedType === 'buy' }"
+                @click="handleTypeChange('buy')"
+              >
+                BUY
+              </button>
+              <button
+                :class="{ 'rates__interval-button--active': selectedType === 'sell' }"
+                @click="handleTypeChange('sell')"
+              >
+                SELL
+              </button>
+            </div>
+            <div v-if="loadingHistory" class="rates__chart-loading">Učitavanje grafikona...</div>
+            <canvas v-show="!loadingHistory" ref="chartCanvas" class="rates__chart"></canvas>
+            <div class="rates__interval-buttons">
+              <button
+                v-for="interval in ['day', 'week', 'month', 'year']"
+                :key="interval"
+                :class="{ 'rates__interval-button--active': selectedInterval === interval }"
+                @click="handleIntervalChange(interval as 'day' | 'week' | 'month' | 'year')"
+              >
+                {{ interval.charAt(0).toUpperCase() + interval.slice(1) }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
