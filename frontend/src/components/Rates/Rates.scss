@@ -446,6 +446,32 @@
     }
 }
 
+.rates__chart-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 321px;
+}
+
+.loader {
+    border: 4px dashed $white;
+    border-top: 4px dashed $gold-2;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 @media (max-width: 1024px) {
     .rates__columns {
         flex-direction: column;

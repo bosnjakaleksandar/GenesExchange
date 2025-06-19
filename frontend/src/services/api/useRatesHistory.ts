@@ -42,7 +42,28 @@ export function useRateHistory() {
         },
       })
       const data = await response.json()
-      history.value = Array.isArray(data) ? data : []
+      if (Array.isArray(data) && data.length === 0) {
+        const lastRateUrl = `${SUPABASE_URL}/rest/v1/rate_history?currency=eq.${currency}&order=recorded_at.desc&limit=1`
+        const lastRateResponse = await fetch(lastRateUrl, {
+          headers: {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+          },
+        })
+        const lastRateData = await lastRateResponse.json()
+        if (Array.isArray(lastRateData) && lastRateData.length > 0) {
+          const lastRate = lastRateData[0]
+          const now = new Date().toISOString()
+          history.value = [
+            { ...lastRate, recorded_at: fromISO },
+            { ...lastRate, recorded_at: now },
+          ]
+        } else {
+          history.value = []
+        }
+      } else {
+        history.value = Array.isArray(data) ? data : []
+      }
     } finally {
       loading.value = false
     }

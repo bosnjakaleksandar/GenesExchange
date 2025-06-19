@@ -99,18 +99,20 @@ watch(selectedCurrency, (newCurrency) => {
   if (newCurrency) {
     selectedType.value = 'buy'
     selectedInterval.value = 'day'
-    fetchHistory(newCurrency, 'day')
   }
 })
 
-watch([selectedType, selectedInterval], () => {
+watch([selectedCurrency, selectedType, selectedInterval], () => {
   if (selectedCurrency.value) {
     fetchHistory(selectedCurrency.value, selectedInterval.value)
   }
 })
 
-watch(history, () => {
-  renderChart()
+watch([history, showSkeleton], async ([historyData, skeletonVisible]) => {
+  if (!skeletonVisible && historyData && historyData.length > 0) {
+    await nextTick()
+    renderChart()
+  }
 })
 
 const handleRowClick = (currency: string) => {
@@ -149,7 +151,7 @@ function renderChart() {
 
   const minY = Math.min(...data)
   const maxY = Math.max(...data)
-  const padding = (maxY - minY) * 0.1 || 0.5
+  const padding = Math.max((maxY - minY) * 0.1, 0.5)
 
   if (chartInstance) {
     chartInstance.destroy()
@@ -311,8 +313,8 @@ function renderChart() {
           <div v-else class="rates__right-content">
             <div class="rates__chart-header">
               <img
-                v-if="rates.find((r) => r.currency === selectedCurrency)?.currencyImage"
-                :src="rates.find((r) => r.currency === selectedCurrency)?.currencyImage"
+                v-if="rates.find((r: any) => r.currency === selectedCurrency)?.currencyImage"
+                :src="rates.find((r: any) => r.currency === selectedCurrency)?.currencyImage"
                 :alt="selectedCurrency"
                 class="rates__table-flag"
                 @error="handleImageError"
@@ -336,7 +338,9 @@ function renderChart() {
                 SELL
               </button>
             </div>
-            <div v-if="loadingHistory" class="rates__chart-loading">Učitavanje grafikona...</div>
+            <div v-if="loadingHistory" class="rates__chart-loading">
+              <div class="loader"></div>
+            </div>
             <canvas v-show="!loadingHistory" ref="chartCanvas" class="rates__chart"></canvas>
             <div class="rates__interval-buttons">
               <button

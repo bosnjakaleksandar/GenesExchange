@@ -1,0 +1,169 @@
+.slider {
+    &__container {
+        margin: 0 10%;
+        padding: 10% 0;
+
+        @include mq(1024) {
+            padding: 5% 0;
+            margin: 0 5%;
+        }
+    }
+
+    &__top {
+        text-align: center;
+        margin-bottom: 50px;
+        color: $white;
+    }
+
+    &__swiper {
+        padding-bottom: 50px;
+    }
+
+    &__slide {
+        height: auto;
+    }
+
+    &__card {
+        position: relative;
+        background: $black;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        padding: 20px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &-content {
+            flex-grow: 1;
+        }
+
+        &-bottom {
+            margin-top: auto;
+        }
+
+        &-quote {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            opacity: 0.7;
+            z-index: 1;
+
+
+            svg {
+                width: 50px;
+                height: 50px;
+
+                path {
+                    fill: $gold-2;
+                }
+            }
+        }
+
+        &-description {
+            padding-top: 35px;
+            position: relative;
+            z-index: 2;
+            color: $white;
+            text-align: center;
+        }
+
+        &-stars {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin: 20px 0;
+
+            svg {
+                width: 20px;
+                height: 20px;
+
+                path {
+                    fill: $gold-2;
+                }
+            }
+        }
+
+        &-title {
+            text-align: center;
+            color: $white;
+        }
+
+        &-image {
+            height: 200px;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+            }
+        }
+
+        &:hover &-image img {
+            transform: scale(1.05);
+        }
+    }
+}
+
+// Swiper custom styles
+.slider__swiper {
+    .swiper-pagination {
+        bottom: 0;
+
+        .swiper-pagination-bullet {
+            background: $gold-2;
+            opacity: 0.5;
+            width: 12px;
+            height: 12px;
+            transition: all 0.3s ease;
+
+            &-active {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: $gold-2;
+        background: $white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-top: -25px;
+        transition: all 0.3s ease;
+
+        &:after {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        &:hover {
+            background: $gold-2;
+            color: $white;
+            transform: scale(1.1);
+        }
+    }
+
+    .swiper-button-next {
+        right: -25px;
+    }
+
+    .swiper-button-prev {
+        left: -25px;
+    }
+
+    @include mq(768) {
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            display: none;
+        }
+    }
+}

@@ -3,3 +3,32 @@
 body {
     background-color: $dark-gray;
 }
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: $dark-gray;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $gold-2;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+
+    &:hover {
+        background: lighten($gold-2, 10%);
+    }
+}
+
+::-webkit-scrollbar-corner {
+    background: $dark-gray;
+}
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: $gold-2 $dark-gray;
+}

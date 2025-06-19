@@ -2,6 +2,7 @@
 import Header from '../components/Header/Header.vue'
 import Hero from '../components/Hero/Hero.vue'
 import Services from '@/components/Services/Services.vue'
+import Slider from '@/components/Slider/Slider.vue'
 import Footer from '../components/Footer/Footer.vue'
 </script>
 
@@ -15,6 +16,7 @@ import Footer from '../components/Footer/Footer.vue'
       :link="{ text: 'Kursna lista', url: '/kursna-lista' }"
     />
     <Services />
+    <Slider />
   </main>
   <Footer />
 </template>

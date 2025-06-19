@@ -2,6 +2,7 @@
 import Header from '../components/Header/Header.vue'
 import Footer from '@/components/Footer/Footer.vue'
 import Hero from '@/components/Hero/Hero.vue'
+import Map from '@/components/Map/Map.vue'
 </script>
 
 <template>
@@ -13,6 +14,7 @@ import Hero from '@/components/Hero/Hero.vue'
       classFont="i-24-600"
       :link="{ text: 'Kako da nas nađete', url: 'https://maps.app.goo.gl/wa9WanGFJDzDQk9H6' }"
     />
+    <!-- <Map /> -->
   </main>
   <Footer />
 </template>
